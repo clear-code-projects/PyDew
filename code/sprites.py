@@ -166,7 +166,7 @@ class Player(CollideableSprite):
             self.direction.y = int(keys[pygame.K_DOWN]) - int(keys[pygame.K_UP])
             self.direction = self.direction.normalize() if self.direction else self.direction
 
-            recent_keys = pygame.key.get_just_pressed()
+            recent_keys = pygame.key.get_pressed()
             # tool switch 
             if recent_keys[pygame.K_q]:
                 self.tool_index = (self.tool_index + 1) % len(self.available_tools)
