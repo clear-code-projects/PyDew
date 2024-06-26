@@ -1,4 +1,4 @@
-from settings import *
+from .settings import *
 
 class Overlay:
 	def __init__(self,entity, overlay_frames):

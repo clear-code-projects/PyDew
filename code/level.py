@@ -1,12 +1,13 @@
-from settings import *
-from sprites import *
-from groups import AllSprites
-from soil import SoilLayer
-from transition import Transition
+from .settings import *
+from .sprites import *
+from .groups import AllSprites
+from .soil import SoilLayer
+from .transition import Transition
 from random import randint
-from sky import Sky, Rain
-from overlay import Overlay
-from menu import Menu
+from .sky import Sky, Rain
+from .overlay import Overlay
+from .menu import Menu
+
 
 class Level:
     def __init__(self, tmx_maps, character_frames, level_frames, overlay_frames, font):

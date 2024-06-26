@@ -1,9 +1,9 @@
 import pygame, sys
-from os.path import join 
-from os import walk
+from os.path import join
+from os import walk, path, sep
 from pytmx.util_pygame import load_pygame
 
-SCREEN_WIDTH, SCREEN_HEIGHT = 1280,720 
+SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
 TILE_SIZE = 16
 CHAR_TILE_SIZE = 48
 SCALE_FACTOR = 4
@@ -18,14 +18,14 @@ LAYERS = {
     'plant': 6,
     'main': 7,
     'fruit': 8,
-	'rain drops': 9,
+    'rain drops': 9,
     'particles': 10
 }
 
 GROW_SPEED = {'corn': 1, 'tomato': 0.7}
 
 OVERLAY_POSITIONS = {
-    'tool' : (40, SCREEN_HEIGHT - 15), 
+    'tool': (40, SCREEN_HEIGHT - 15),
     'seed': (70, SCREEN_HEIGHT - 5)}
 
 SALE_PRICES = {
@@ -40,6 +40,6 @@ PURCHASE_PRICES = {
 }
 
 APPLE_POS = {
-	'small': [(18,17), (30,37), (12,50), (30,45), (20,30), (30,10)],
-	'default': [(30,24), (60,65), (50,50), (16,40),(45,50), (42,70)]
+    'small': [(18, 17), (30, 37), (12, 50), (30, 45), (20, 30), (30, 10)],
+    'default': [(30, 24), (60, 65), (50, 50), (16, 40), (45, 50), (42, 70)]
 }

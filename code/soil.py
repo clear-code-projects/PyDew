@@ -1,5 +1,5 @@
-from settings import * 
-from sprites import Sprite, Plant
+from .settings import *
+from .sprites import Sprite, Plant
 from random import choice
 
 class SoilLayer:

@@ -1,4 +1,4 @@
-from settings import *
+from .settings import *
 
 class Transition:
 	def __init__(self, reset, finish_reset):

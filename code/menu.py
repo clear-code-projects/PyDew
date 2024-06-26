@@ -1,5 +1,5 @@
 import pygame
-from settings import *
+from .settings import *
 
 class Menu:
     def __init__(self, player, toggle_menu, font):

@@ -1,5 +1,5 @@
-from settings import *
-from sprites import WaterDrop
+from .settings import *
+from .sprites import WaterDrop
 from random import choice, randint
 
 class Sky:

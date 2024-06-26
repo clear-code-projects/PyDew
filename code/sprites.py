@@ -1,5 +1,5 @@
-from settings import * 
-from timer import Timer
+from .settings import *
+from .timer import Timer
 from random import randint, choice
 
 class Sprite(pygame.sprite.Sprite):
