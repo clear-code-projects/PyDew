@@ -102,3 +102,10 @@ def sound_importer(*path, default_volume=0.5):
         value.set_volume(default_volume)
         sounds_dict[key] = value
     return sounds_dict
+
+
+def generate_particle_surf(img: pygame.Surface):
+    px_mask = pygame.mask.from_surface(img)
+    ret = px_mask.to_surface()
+    ret.set_colorkey("black")
+    return ret
