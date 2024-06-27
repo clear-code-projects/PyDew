@@ -58,7 +58,7 @@ class Plant(CollideableSprite):
                 self.harvestable = True
 
             self.image = self.frames[int(self.age)]
-            self.rect = self.image.get_rect(midbottom=self.soil.rect.midbottom + pygame.math.Vector2(0, 2))
+            self.rect = self.image.get_frect(midbottom=self.soil.rect.midbottom + pygame.math.Vector2(0, 2))
 
 
 class Tree(CollideableSprite):
@@ -89,7 +89,7 @@ class Tree(CollideableSprite):
         if self.health <= 0 and self.alive:
             print('x')
             self.image = self.stump_surf
-            self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
+            self.rect = self.image.get_frect(midbottom=self.rect.midbottom)
             self.hitbox = self.rect.inflate(-10, -self.rect.height * 0.6)
             self.alive = False
             entity.add_resource('wood', 5)
