@@ -5,8 +5,9 @@ We are modifying Pydew Valley (Clear Code) in Python and Pygame so that we can u
 In the experimental study, we investigate social influence on the adoption of health behaviors.\
 The due date for the game is September 1, 2024.
 
-## Tasklist
-A detailed tasklist can be found in this GitHub project: https://github.com/users/sloukit/projects/1 
+## Tasklist and game levels
+A detailed tasklist can be found in this GitHub project: https://github.com/users/sloukit/projects/1. \
+You find more details on the game levels here: https://docs.google.com/spreadsheets/d/1NAssjrPN4mv3kBC3e5YmJcYkJZLU7450cFR9EhCbfgE/edit?gid=374591304#gid=374591304. \
 If you are interested in collaborating with us on this project, please contact me at s.kittelberger[at]psychologie.uzh.ch.
 
 ## Run project locally
