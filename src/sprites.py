@@ -37,6 +37,7 @@ class Plant(CollideableSprite):
         self.soil = soil_sprite
         self.check_watered = check_watered
         self.frames = frames
+        self.hitbox = None
 
         self.seed_type = seed_type
         print(self.seed_type)
@@ -68,6 +69,7 @@ class Tree(CollideableSprite):
         self.apple_surf = apple_surf
         self.stump_surf = stump_surf
         self.health = 5
+        self.hitbox = None
         self.alive = True
         self.apple_sprites = pygame.sprite.Group()
         self.create_fruit()
@@ -233,11 +235,15 @@ class Player(CollideableSprite):
         for sprite in self.collision_sprites:
             if sprite.rect.colliderect(self.hitbox_rect):
                 if direction == 'horizontal':
-                    if self.direction.x > 0: self.hitbox_rect.right = sprite.rect.left
-                    if self.direction.x < 0: self.hitbox_rect.left = sprite.rect.right
+                    if self.direction.x > 0:
+                        self.hitbox_rect.right = sprite.rect.left
+                    if self.direction.x < 0:
+                        self.hitbox_rect.left = sprite.rect.right
                 else:
-                    if self.direction.y < 0: self.hitbox_rect.top = sprite.rect.bottom
-                    if self.direction.y > 0: self.hitbox_rect.bottom = sprite.rect.top
+                    if self.direction.y < 0:
+                        self.hitbox_rect.top = sprite.rect.bottom
+                    if self.direction.y > 0:
+                        self.hitbox_rect.bottom = sprite.rect.top
 
     def animate(self, dt):
         current_animation = self.frames[self.state][self.facing_direction]

@@ -3,7 +3,7 @@ from .settings import *
 
 def resource_path(relative_path: str):
     """Get absolute path to resource, works for dev and for PyInstaller"""
-    relative_path=relative_path.replace("/", sep)
+    relative_path = relative_path.replace("/", sep)
     try:
         base_path = sys._MEIPASS
     except Exception:
@@ -91,7 +91,8 @@ def character_importer(chr_path):
             for file_name in file_names:
                 char_dict[char][file_name.split('.')[0]] = single_character_importer(join(folder_path, file_name))
     return char_dict
-    
+
+
 def sound_importer(*path, default_volume=0.5):
     sounds_dict = {}
 
