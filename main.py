@@ -1,5 +1,3 @@
-import asyncio
-
 from src.settings import *
 from src.support import *
 from src.level import Level
@@ -42,7 +40,7 @@ class Game:
 
         self.font = import_font(30, 'font/LycheeSoda.ttf')
 
-    async def run(self):
+    def run(self):
         while True:
             dt = self.clock.tick() / 1000
             for event in pygame.event.get():
@@ -53,9 +51,8 @@ class Game:
             self.level.update(dt)
 
             pygame.display.update()
-            await asyncio.sleep(0)
 
 
 if __name__ == '__main__':
     game = Game()
-    asyncio.run(game.run())
+    game.run()
