@@ -95,7 +95,7 @@ def character_importer(chr_path):
 def sound_importer(*path, default_volume=0.5):
     sounds_dict = {}
 
-    for sound_name in listdir(join(*path)):
+    for sound_name in listdir(resource_path(join(*path))):
         key = sound_name.split('.')[0]
         value = pygame.mixer.Sound(join(*path, sound_name))
         value.set_volume(default_volume)

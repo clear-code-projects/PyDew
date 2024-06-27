@@ -1,6 +1,6 @@
 import pygame, sys
 from os.path import join
-from os import walk, path, sep
+from os import walk, path, sep, listdir
 from pytmx.util_pygame import load_pygame
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
