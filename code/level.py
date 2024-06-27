@@ -10,7 +10,7 @@ from .menu import Menu
 
 
 class Level:
-    def __init__(self, tmx_maps, character_frames, level_frames, overlay_frames, font):
+    def __init__(self, tmx_maps, character_frames, level_frames, overlay_frames, font, sounds):
         self.display_surface = pygame.display.get_surface()
 
         # sprite groups
@@ -22,6 +22,9 @@ class Level:
         # soil 
         self.soil_layer = SoilLayer(self.all_sprites, self.collision_sprites, tmx_maps['main'], level_frames )
         self.raining = False
+
+        # sounds
+        self.sounds = sounds
 
         # data 
         self.setup(tmx_maps, character_frames, level_frames)
@@ -37,6 +40,7 @@ class Level:
         self.overlay = Overlay(self.entities['Player'], overlay_frames)
         self.menu = Menu(self.entities['Player'], self.toggle_shop, font)
         self.shop_active = False
+
 
     def setup(self, tmx_maps, character_frames, level_frames):
         # environment
@@ -71,7 +75,8 @@ class Level:
                                              groups = self.all_sprites, 
                                              collision_sprites = self.collision_sprites,
                                              apply_tool = self.apply_tool,
-                                             interact = self.interact) 
+                                             interact = self.interact,
+                                             sounds = self.sounds)
 
     def apply_tool(self, tool, pos, entity):
         if tool == 'axe':
@@ -79,15 +84,18 @@ class Level:
                 if tree.rect.collidepoint(pos):
                     tree.hit(entity)
                     self.create_particle(tree)
+                    self.sounds['axe'].play()
 
         if tool == 'hoe':
-            self.soil_layer.hoe(pos)
+            self.soil_layer.hoe(pos, hoe_sound=self.sounds['hoe'])
 
         if tool == 'water':
             self.soil_layer.water(pos)
+            self.sounds['water'].play()
 
         if tool in ('corn', 'tomato'):
-            self.soil_layer.plant_seed(pos, tool)
+            self.soil_layer.plant_seed(pos, tool, plant_sound=self.sounds['plant'])
+
 
     def create_particle(self, sprite):
         ParticleSprite(sprite.rect.topleft, sprite.image, self.all_sprites)

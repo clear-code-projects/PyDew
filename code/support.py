@@ -91,3 +91,13 @@ def character_importer(chr_path):
             for file_name in file_names:
                 char_dict[char][file_name.split('.')[0]] = single_character_importer(join(folder_path, file_name))
     return char_dict
+    
+def sound_importer(*path, default_volume=0.5):
+    sounds_dict = {}
+
+    for sound_name in listdir(join(*path)):
+        key = sound_name.split('.')[0]
+        value = pygame.mixer.Sound(join(*path, sound_name))
+        value.set_volume(default_volume)
+        sounds_dict[key] = value
+    return sounds_dict

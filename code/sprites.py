@@ -123,7 +123,7 @@ class Entity(Sprite):
         super().__init__(pos, frames[self.state][0], groups, z)
 
 class Player(CollideableSprite):
-    def __init__(self, pos, frames, groups, collision_sprites, apply_tool, interact):
+    def __init__(self, pos, frames, groups, collision_sprites, apply_tool, interact, sounds):
         self.frames, self.frame_index, self.state, self.facing_direction = frames, 0, 'idle', 'down'
         super().__init__(pos, self.frames[self.state][self.facing_direction][self.frame_index], groups, (44 * SCALE_FACTOR, 40 * SCALE_FACTOR))
         
@@ -158,6 +158,9 @@ class Player(CollideableSprite):
         }
         self.money = 200
 
+        # sounds
+        self.sounds = sounds
+
     def input(self):
         keys = pygame.key.get_pressed()
         # movement
@@ -176,8 +179,10 @@ class Player(CollideableSprite):
             if recent_keys[pygame.K_SPACE]:
                 self.tool_active = True
                 self.frame_index = 0
-                self.direction = pygame.Vector2()        
-           
+                self.direction = pygame.Vector2()
+                if self.current_tool in {'hoe', 'axe'}:
+                    self.sounds['swing'].play()
+
             # seed switch 
             if recent_keys[pygame.K_e]:
                 self.seed_index = (self.seed_index + 1) % len(self.available_seeds)
@@ -241,6 +246,7 @@ class Player(CollideableSprite):
 
     def add_resource(self, resource, amount = 1):
         self.inventory[resource] += amount
+        self.sounds['success'].play()
 
     def update(self, dt):
         self.input()

@@ -9,6 +9,7 @@ class Game:
         self.tmx_maps = None
         self.overlay_frames = None
         self.font = None
+        self.sounds = None
         pygame.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('PyDew')
@@ -32,6 +33,9 @@ class Game:
         }
         self.overlay_frames = import_folder_dict('images/overlay')
         self.character_frames = character_importer('images/characters')
+
+        # sounds
+        self.sounds = sound_importer('audio', default_volume=0.25)
 
         self.font = import_font(30, 'font/LycheeSoda.ttf')
 
