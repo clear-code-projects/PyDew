@@ -1,3 +1,37 @@
+# Pydew Valley (Clear Code) Mod at the University of Zurich
+
+## About project
+We are modifying Pydew Valley (Clear Code) in Python and Pygame so that we can use it for an experimental study in psychology at the University of Zurich.\
+In the experimental study, we investigate social influence on the adoption of health behaviors.\
+The due date for the game is September 1, 2024.
+
+## Tasklist and game levels
+A detailed tasklist can be found in this GitHub project: https://github.com/users/sloukit/projects/1. \
+You find more details on the game levels here: https://docs.google.com/spreadsheets/d/1NAssjrPN4mv3kBC3e5YmJcYkJZLU7450cFR9EhCbfgE/edit?gid=374591304#gid=374591304. \
+If you are interested in collaborating with us on this project, please contact me at s.kittelberger[at]psychologie.uzh.ch.
+
+## Run project locally
+```bash
+git clone https://github.com/sloukit/pydew-valley-uzh.git
+pip install pygame
+cd pydew-valley-uzh-main
+python3 main.py
+```
+
+## Resources
+This game builts on a Clear Code tutorial: \
+https://www.youtube.com/watch?v=T4IX36sP_0c&ab_channel=ClearCode \
+
+We use assets from Sprout Lands (basic and premium version): \
+https://cupnooble.itch.io/sprout-lands-asset-pack 
+
+## Discord
+Project server:      https://discord.gg/SuthU2qKaZ \
+Pygame(-ce) server:  https://discord.gg/pygame \
+Clear Code server:   https://discord.gg/Z2C3vnrxef \
+Sprout Lands server: https://discord.gg/eTvqPnCRds 
+
+## More information from the creator
 Stardew Valley clone made in Pygame-ce. Created by Christian Koch / Clear code. 
 The code for this project is in the public domain (Creative commons 0) you can use it for any purpose, including commercial ones, without permission. Attributions are not necessary but would be appreciated. 
 
