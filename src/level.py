@@ -103,7 +103,8 @@ class Level:
             self.sounds['water'].play()
 
         if tool in ('corn', 'tomato'):
-            self.soil_layer.plant_seed(pos, tool, plant_sound=self.sounds['plant'])
+            self.soil_layer.plant_seed(pos, tool, entity.inventory,
+                                       plant_sounds=[self.sounds['plant'], self.sounds['cant_plant']])
 
     def create_particle(self, sprite):
         ParticleSprite(sprite.rect.topleft, sprite.image, self.all_sprites)
