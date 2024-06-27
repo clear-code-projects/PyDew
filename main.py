@@ -1,6 +1,7 @@
-from code.settings import *
-from code.support import *
-from code.level import Level
+from src.settings import *
+from src.support import *
+from src.level import Level
+
 
 class Game:
     def __init__(self):
@@ -17,7 +18,7 @@ class Game:
         self.running = True
         self.load_assets()
 
-        self.level = Level(self.tmx_maps, self.character_frames, self.level_frames, self.overlay_frames, self.font)
+        self.level = Level(self.tmx_maps, self.character_frames, self.level_frames, self.overlay_frames, self.font, self.sounds)
 
     def load_assets(self):
         self.tmx_maps = tmx_importer('data/maps')

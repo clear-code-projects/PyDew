@@ -14,7 +14,7 @@ If you are interested in collaborating with us on this project, please contact m
 git clone https://github.com/sloukit/pydew-valley-uzh.git
 pip install pygame
 cd pydew-valley-uzh-main
-python3 code/main.py
+python3 main.py
 ```
 
 ## Resources
