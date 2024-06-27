@@ -61,11 +61,11 @@ class Level:
 
         # collisions
         for obj in tmx_maps['main'].get_layer_by_name('Collisions'): 
-            Sprite((obj.x * SCALE_FACTOR,obj.y * SCALE_FACTOR), pygame.Surface((obj.width * SCALE_FACTOR, obj.height * SCALE_FACTOR)), self.collision_sprites)
+            Sprite((obj.x * SCALE_FACTOR,obj.y * SCALE_FACTOR), pygame.Surface((obj.width * SCALE_FACTOR, obj.height * SCALE_FACTOR)), (self.collision_sprites,))
 
         # interactions 
         for obj in tmx_maps['main'].get_layer_by_name('Interactions'):
-            Sprite((obj.x * SCALE_FACTOR,obj.y * SCALE_FACTOR), pygame.Surface((obj.width * SCALE_FACTOR, obj.height * SCALE_FACTOR)), self.interaction_sprites, LAYERS['main'], obj.name)
+            Sprite((obj.x * SCALE_FACTOR,obj.y * SCALE_FACTOR), pygame.Surface((obj.width * SCALE_FACTOR, obj.height * SCALE_FACTOR)), (self.interaction_sprites,), LAYERS['main'], obj.name)
 
         # playable entities
         self.entities = {}

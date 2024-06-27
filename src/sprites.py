@@ -5,7 +5,7 @@ from random import randint, choice
 
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups, z=LAYERS['main'], name=None):
-        super().__init__(*groups) # pygame.sprite.Sprite.__init__ expects to have a variable number of arguments which should all be derived of the pygame.sprite.Group class, so we unpack the tuple passed here
+        super().__init__(groups)
         self.surf = surf
         self.image = surf
         self.rect = self.image.get_frect(topleft=pos)
@@ -150,6 +150,7 @@ class Player(CollideableSprite):
         self.tool_index = 0
         self.current_tool = self.available_tools[self.tool_index]
         self.tool_active = False
+        self.just_used_tool = False
         self.apply_tool = apply_tool
 
         # seeds 
@@ -179,7 +180,7 @@ class Player(CollideableSprite):
             self.direction.y = int(keys[pygame.K_DOWN]) - int(keys[pygame.K_UP])
             self.direction = self.direction.normalize() if self.direction else self.direction
 
-            recent_keys = pygame.key.get_pressed()
+            recent_keys = pygame.key.get_just_pressed()
             # tool switch 
             if recent_keys[pygame.K_q]:
                 self.tool_index = (self.tool_index + 1) % len(self.available_tools)
@@ -246,11 +247,15 @@ class Player(CollideableSprite):
         else:
             tool_animation = self.frames[self.available_tools[self.tool_index]][self.facing_direction]
             if self.frame_index < len(tool_animation):
-                self.image = tool_animation[int(self.frame_index)]
+                self.image = tool_animation[min((round(self.frame_index), len(tool_animation) - 1))]
+                if round(self.frame_index) == len(tool_animation) - 1 and not self.just_used_tool:
+                    self.just_used_tool = True
+                    self.use_tool('tool')
             else:
-                self.use_tool('tool')
+                # self.use_tool('tool')
                 self.state = 'idle'
                 self.tool_active = False
+                self.just_used_tool = False
 
     def use_tool(self, option):
         self.apply_tool(self.current_tool if option == 'tool' else self.current_seed, self.get_target_pos(), self)
