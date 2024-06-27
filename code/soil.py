@@ -19,11 +19,12 @@ class SoilLayer:
         for x, y, _ in tmx_map.get_layer_by_name('Farmable').tiles():
             self.grid[y][x].append('F')
     
-    def hoe(self, pos):
+    def hoe(self, pos, hoe_sound):
         x, y = int(pos[0] / (TILE_SIZE * SCALE_FACTOR)), int(pos[1] / (TILE_SIZE * SCALE_FACTOR))        
         if 'F' in self.grid[y][x]:
             self.grid[y][x].append('X')
             self.create_soil_tiles()
+            hoe_sound.play()
 
     def water(self, pos):
         for soil_sprite in self.soil_sprites.sprites():
@@ -65,7 +66,7 @@ class SoilLayer:
                 if 'W' in cell:
                     cell.remove('W')
 
-    def plant_seed(self, pos, seed):
+    def plant_seed(self, pos, seed, plant_sound):
         for soil_sprite in self.soil_sprites.sprites():
             if soil_sprite.rect.collidepoint(pos):
 
@@ -75,7 +76,7 @@ class SoilLayer:
                 if 'P' not in self.grid[y][x]:
                     self.grid[y][x].append('P')
                     Plant(seed, [self.all_sprites, self.plant_sprites, self.collision_sprites], soil_sprite, self.level_frames[seed], self.check_watered)
-
+                    plant_sound.play()
     def update_plants(self):
         for plant in self.plant_sprites.sprites():
             plant.grow()

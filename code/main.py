@@ -10,8 +10,10 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.load_assets()
+        self.sounds['music'].play(loops=-1)
 
-        self.level = Level(self.tmx_maps, self.character_frames, self.level_frames, self.overlay_frames, self.font)
+
+        self.level = Level(self.tmx_maps, self.character_frames, self.level_frames, self.overlay_frames, self.font, self.sounds)
 
     def load_assets(self):
         self.tmx_maps = tmx_importer('data', 'maps')
@@ -29,6 +31,9 @@ class Game:
 
         self.overlay_frames =  import_folder_dict('images', 'overlay')
         self.font = import_font(30, 'font','LycheeSoda.ttf',)
+        
+        # sounds
+        self.sounds = sound_importer('audio', default_volume=0.25)
 
     def run(self):
         while True:
