@@ -20,10 +20,10 @@ class settings_menu:
         # entries
         self.options = ("Keybinds", "Volume", "Back")
         self.option_data = { 0: {
-                "Up": "W",
-                "Down": "S",
-                "Left": "L",
-                "Right": "R",
+                "Up": "UP ARROW",
+                "Down": "DOWN ARROW",
+                "Left": "LEFT ARROW",
+                "Right": "RIGHT ARROW",
                 "Use": "SPACE",
                 "Cycle Tools": "Q",
                 "Cycle Seeds": "E",
@@ -87,7 +87,7 @@ class settings_menu:
                     if key == "slider":
                         self.slider.draw(self.display_surface)  # Call the function
                         v = self.slider.get_value()
-                        text = f"Music Volume: {round(v)}"
+                        text = f"Volume: {round(v)}"
                         big_text_surf = self.font.render(text, False, 'Black')
                         big_text_surfs.append(big_text_surf)
             for i, big_text_surf in enumerate(big_text_surfs):
@@ -139,7 +139,10 @@ class Slider:
         elif event.type == pygame.MOUSEMOTION and self.clicking:
             self.value = self.min_value + (self.max_value - self.min_value) * (event.pos[0] - self.rect.left) / (self.rect.width - 10)
             self.value = max(self.min_value, min(self.max_value, self.value))
-            self.sounds['music'].set_volume(self.value / 100)
+            self.sounds['music'].set_volume(min((self.value / 1000), 0.4))
+            for key in self.sounds:
+                if key != 'music':
+                    self.sounds[key].set_volume((self.value / 100))
 
     def get_value(self):
         return self.value

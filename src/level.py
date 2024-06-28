@@ -44,6 +44,8 @@ class Level:
         self.shop_active = False
 
     def setup(self, tmx_maps, character_frames, level_frames):
+        self.sounds["music"].set_volume(0.1)
+        self.sounds["music"].play(-1)
         # environment
         for layer in ['Lower ground', 'Upper ground']:
             for x, y, surf in tmx_maps['main'].get_layer_by_name(layer).tiles():

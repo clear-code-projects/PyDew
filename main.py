@@ -100,6 +100,7 @@ class MainMenu:
                     pygame.quit()
                     sys.exit()
             if self.main_menu.pressed_play:
+                self.sounds["music"].stop()
                 self.menu = False
                 game = Game()
                 game.run()
