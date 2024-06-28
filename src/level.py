@@ -10,7 +10,7 @@ from .menu import Menu
 
 
 class Level:
-    def __init__(self, tmx_maps, character_frames, level_frames, overlay_frames, font, sounds):
+    def __init__(self, tmx_maps: MapDict, character_frames, level_frames, overlay_frames, font, sounds):
         self.display_surface = pygame.display.get_surface()
 
         # sprite groups
@@ -43,7 +43,7 @@ class Level:
         self.menu = Menu(self.entities['Player'], self.toggle_shop, font)
         self.shop_active = False
 
-    def setup(self, tmx_maps, character_frames, level_frames):
+    def setup(self, tmx_maps: MapDict, character_frames, level_frames):
         # environment
         for layer in ['Lower ground', 'Upper ground']:
             for x, y, surf in tmx_maps['main'].get_layer_by_name(layer).tiles():

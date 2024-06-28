@@ -151,7 +151,7 @@ class Entity(Sprite):
 
 
 class Player(CollideableSprite):
-    def __init__(self, pos, frames, groups, collision_sprites, apply_tool, interact, sounds):
+    def __init__(self, pos: Coordinate, frames, groups, collision_sprites: pygame.sprite.Group, apply_tool: Function, interact: Function, sounds: SoundDict):
         self.frames, self.frame_index, self.state, self.facing_direction = frames, 0, 'idle', 'down'
         super().__init__(pos, self.frames[self.state][self.facing_direction][self.frame_index], groups,
                          (44 * SCALE_FACTOR, 40 * SCALE_FACTOR))
