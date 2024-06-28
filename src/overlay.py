@@ -10,7 +10,7 @@ class Overlay:
 		# imports 
 		self.overlay_frames = overlay_frames
 
-	def display(self):
+	def display(self, time):
 
 		# tool
 		tool_surf = self.overlay_frames[self.player.current_tool]
@@ -21,3 +21,15 @@ class Overlay:
 		seed_surf = self.overlay_frames[self.player.current_seed]
 		seed_rect = seed_surf.get_frect(midbottom = OVERLAY_POSITIONS['seed'])
 		self.display_surface.blit(seed_surf,seed_rect)
+
+		# clock
+		font = pygame.font.SysFont('Arial', 30)	# font/size is temporary
+		
+		if(time[0] < 10): hours = f"0{time[0]}"			# if hours are less than 10, add a 0 to stay in the hh:mm format
+		else: hours = f"{time[0]}"
+		
+		if(time[1] < 10): minutes = f"0{time[1]}"		# if minutes are less than 10, add a 0 to stay in the hh:mm format
+		else: minutes = f"{time[1]}"
+		
+		text_surface = font.render(f"{hours}:{minutes}", False, (255,255,255))
+		self.display_surface.blit(text_surface, (10,10))
