@@ -3,7 +3,7 @@ from .settings import *
 
 
 class settings_menu:
-    def __init__(self, font):
+    def __init__(self, font, sounds):
 
         # general setup
         self.display_surface = pygame.display.get_surface()
@@ -13,8 +13,10 @@ class settings_menu:
         self.width = 400
         self.space = 10
         self.padding = 8
+        self.sounds = sounds
         self.go_back = False
         self.current_item = 0
+        self.slider = None
         # entries
         self.options = ("Keybinds", "Volume", "Back")
         self.option_data = { 0: {
@@ -28,7 +30,7 @@ class settings_menu:
                 "Plant Current Seed": "LCTRL",
             },
             1: {
-             "slider": "slider will be here once i get it :D",
+             "slider": self.slider,
             },
             2: {
              "Back": "Press Space to go back to the main menu!"
@@ -51,6 +53,9 @@ class settings_menu:
 
         # buy / sell text surface
     def input(self):
+        if self.slider:
+            for event in pygame.event.get():
+                self.slider.handle_event(event)
         keys = pygame.key.get_just_pressed()
 
         self.index = (self.index + int(keys[pygame.K_DOWN]) - int(keys[pygame.K_UP])) % len(self.options)
@@ -62,23 +67,32 @@ class settings_menu:
                 self.index = 0
 
     def show_entry(self, text_surf, top, index, text_index):
-
         # background
         bg_rect = pygame.Rect(self.main_rect.left, top, self.width, text_surf.get_height() + (self.padding * 2))
         pygame.draw.rect(self.display_surface, 'White', bg_rect, 0, 4)
         big_rect = pygame.Rect(SCREEN_WIDTH // 15 + self.width, (SCREEN_HEIGHT // 20 + self.total_height//2)+25, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         pygame.draw.rect(self.display_surface, 'White', big_rect, 0, 4)
         # text
-        big_text_surfs = []
-        for key, value in self.option_data[index].items():
-            text = f"{key}: {value}"
-            big_text_surf = self.font.render(text, False, 'Black')
-            big_text_surfs.append(big_text_surf)
-
-        for i, big_text_surf in enumerate(big_text_surfs):
-            big_text_rect = big_text_surf.get_rect(topleft=(big_rect.left + 10, big_rect.top + 10 + i * 20))
-            self.display_surface.blit(big_text_surf, big_text_rect)
+        if not self.slider:
+            self.slider = Slider(SCREEN_WIDTH // 15 + self.width + 10, (SCREEN_HEIGHT // 20 + self.total_height//2)+35, big_rect.width/2, 10, 0, 100, 50, self.sounds)
         text_rect = text_surf.get_frect(midleft=(self.main_rect.left + (self.main_rect.width/2)-text_surf.get_width()/2, bg_rect.centery))
+        big_text_surfs = []
+        if self.option_data[index]:
+            for key, value in self.option_data[index].items():
+                if isinstance(value, str):
+                    text = f"{key}: {value}"
+                    big_text_surf = self.font.render(text, False, 'Black')
+                    big_text_surfs.append(big_text_surf)
+                else:
+                    if key == "slider":
+                        self.slider.draw(self.display_surface)  # Call the function
+                        v = self.slider.get_value()
+                        text = f"Music Volume: {round(v)}"
+                        big_text_surf = self.font.render(text, False, 'Black')
+                        big_text_surfs.append(big_text_surf)
+            for i, big_text_surf in enumerate(big_text_surfs):
+                big_text_rect = big_text_surf.get_rect(topleft=(big_rect.left + 10, big_rect.top + 15 + i * 20))
+                self.display_surface.blit(big_text_surf, big_text_rect)
         self.display_surface.blit(text_surf, text_rect)
         # selected
         if index == text_index:
@@ -91,6 +105,7 @@ class settings_menu:
 
         pygame.draw.rect(self.display_surface, 'White', text_rect.inflate(10, 10), 0, 4)
         self.display_surface.blit(text_surf, text_rect)
+
     def update(self):
         self.input()
         self.main_menu_title()
@@ -98,3 +113,33 @@ class settings_menu:
         for text_index, text_surf in enumerate(self.text_surfs):
             top = self.main_rect.top + text_index * (text_surf.get_height() + (self.padding * 2) + self.space)
             self.show_entry(text_surf, top, self.index, text_index)
+
+class Slider:
+    def __init__(self, x, y, width, height, min_value, max_value, initial_value, sounds):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.min_value = min_value
+        self.max_value = max_value
+        self.sounds = sounds
+        self.value = initial_value
+        self.clicking = False
+        self.knob_radius = 10
+
+    def draw(self, surface):
+        pygame.draw.rect(surface, (220, 185, 138), self.rect, 0, 4)
+        pygame.draw.rect(surface, (243, 229, 194), self.rect.inflate(-4, -4), 0, 4)
+        knob_x = self.rect.left + (self.rect.width - 10) * (self.value - self.min_value) / (self.max_value - self.min_value)
+        pygame.draw.circle(surface, (232, 207, 166), (int(knob_x), self.rect.centery), self.knob_radius)
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.rect.collidepoint(event.pos):
+                self.clicking = True
+        elif event.type == pygame.MOUSEBUTTONUP:
+            self.clicking = False
+        elif event.type == pygame.MOUSEMOTION and self.clicking:
+            self.value = self.min_value + (self.max_value - self.min_value) * (event.pos[0] - self.rect.left) / (self.rect.width - 10)
+            self.value = max(self.min_value, min(self.max_value, self.value))
+            self.sounds['music'].set_volume(self.value / 100)
+
+    def get_value(self):
+        return self.value
