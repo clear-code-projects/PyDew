@@ -124,6 +124,8 @@ class Level:
         # plants
         self.soil_layer.update_plants()
 
+        self.sky.set_time(6, 0)  # set to 0600 hours upon sleeping
+
         # soil
         self.soil_layer.remove_water()
         self.raining = randint(0, 10) > 7
@@ -132,8 +134,8 @@ class Level:
             self.soil_layer.water_all()
 
         # apples on the trees
-        for tree in self.tree_sprites.sprites():
-            for apple in tree.apple_sprites.sprites():
+        for tree in self.tree_sprites: # No need to iterate using explicit sprites() call. Iterating over a sprite group normally will do the same thing
+            for apple in tree.apple_sprites:
                 apple.kill()
             tree.create_fruit()
 
@@ -180,4 +182,3 @@ class Level:
 
         if self.day_transition:
             self.transition.play()
-            self.sky.set_time(6,0)     # set to 0600 hours upon sleeping
