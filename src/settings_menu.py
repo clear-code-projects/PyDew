@@ -2,26 +2,41 @@ import pygame
 from .settings import *
 
 
-class main_menu:
-    def __init__(self, font, music):
+class settings_menu:
+    def __init__(self, font):
 
         # general setup
         self.display_surface = pygame.display.get_surface()
         self.font = font
         self.index = 0
-        self.music = music
         # options
         self.width = 400
         self.space = 10
         self.padding = 8
-        self.pressed_play = False
-        self.pressed_quit = False
+        self.go_back = False
+        self.current_item = 0
         # entries
-        self.options = ("Play", "Quit")
+        self.options = ("Keybinds", "Volume", "Back")
+        self.option_data = { 0: {
+                "Up": "W",
+                "Down": "S",
+                "Left": "L",
+                "Right": "R",
+                "Use": "SPACE",
+                "Cycle Tools": "Q",
+                "Cycle Seeds": "E",
+                "Plant Current Seed": "LCTRL",
+            },
+            1: {
+             "slider": "slider will be here once i get it :D",
+            },
+            2: {
+             "Back": "Press Space to go back to the main menu!"
+            },
+        }
         self.setup()
 
     def setup(self):
-        self.music.play()
         # create the text surfaces
         self.text_surfs = []
         self.total_height = 0
@@ -31,9 +46,8 @@ class main_menu:
             self.text_surfs.append(text_surf)
             self.total_height += text_surf.get_height() + (self.padding * 2)
 
-        self.total_height += (len(self.text_surfs) - 1) * self.space
-        self.menu_top = SCREEN_HEIGHT / 2 - self.total_height / 2
-        self.main_rect = pygame.Rect(SCREEN_WIDTH / 2 - self.width / 2, self.menu_top, self.width, self.total_height)
+        self.menu_top = SCREEN_HEIGHT / 20 + 100
+        self.main_rect = pygame.Rect(SCREEN_WIDTH / 20 - self.width / 20, self.menu_top, self.width, self.total_height)
 
         # buy / sell text surface
     def input(self):
@@ -42,30 +56,37 @@ class main_menu:
         self.index = (self.index + int(keys[pygame.K_DOWN]) - int(keys[pygame.K_UP])) % len(self.options)
 
         if keys[pygame.K_SPACE]:
-            current_item = self.options[self.index]
-            if 'Play' in current_item:
-                if not self.pressed_quit:
-                    self.pressed_play = True
-            elif 'Quit' in current_item:
-                if not self.pressed_play:
-                    self.pressed_quit = True
+            self.current_item = self.options[self.index]
+            if 'Back' in self.current_item:
+                self.go_back = True
+                self.index = 0
 
     def show_entry(self, text_surf, top, index, text_index):
 
         # background
         bg_rect = pygame.Rect(self.main_rect.left, top, self.width, text_surf.get_height() + (self.padding * 2))
         pygame.draw.rect(self.display_surface, 'White', bg_rect, 0, 4)
-
+        big_rect = pygame.Rect(SCREEN_WIDTH // 15 + self.width, (SCREEN_HEIGHT // 20 + self.total_height//2)+25, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+        pygame.draw.rect(self.display_surface, 'White', big_rect, 0, 4)
         # text
+        big_text_surfs = []
+        for key, value in self.option_data[index].items():
+            text = f"{key}: {value}"
+            big_text_surf = self.font.render(text, False, 'Black')
+            big_text_surfs.append(big_text_surf)
+
+        for i, big_text_surf in enumerate(big_text_surfs):
+            big_text_rect = big_text_surf.get_rect(topleft=(big_rect.left + 10, big_rect.top + 10 + i * 20))
+            self.display_surface.blit(big_text_surf, big_text_rect)
         text_rect = text_surf.get_frect(midleft=(self.main_rect.left + (self.main_rect.width/2)-text_surf.get_width()/2, bg_rect.centery))
         self.display_surface.blit(text_surf, text_rect)
-
         # selected
         if index == text_index:
             pygame.draw.rect(self.display_surface, 'black', bg_rect, 4, 4)
+            pygame.draw.rect(self.display_surface, 'white', big_rect, 4, 4)
 
     def main_menu_title(self):
-        text_surf = self.font.render('Main Menu', False, 'Black')
+        text_surf = self.font.render('Settings', False, 'Black')
         text_rect = text_surf.get_frect(midtop=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20))
 
         pygame.draw.rect(self.display_surface, 'White', text_rect.inflate(10, 10), 0, 4)

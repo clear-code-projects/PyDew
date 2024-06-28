@@ -2,26 +2,25 @@ import pygame
 from .settings import *
 
 
-class main_menu:
-    def __init__(self, font, music):
+class pause_menu:
+    def __init__(self, font):
 
         # general setup
         self.display_surface = pygame.display.get_surface()
         self.font = font
         self.index = 0
-        self.music = music
         # options
         self.width = 400
         self.space = 10
         self.padding = 8
+        self.pressed_settings = False
         self.pressed_play = False
         self.pressed_quit = False
         # entries
-        self.options = ("Play", "Quit")
+        self.options = ("Resume", "Options", "Main Menu")
         self.setup()
 
     def setup(self):
-        self.music.play()
         # create the text surfaces
         self.text_surfs = []
         self.total_height = 0
@@ -43,12 +42,18 @@ class main_menu:
 
         if keys[pygame.K_SPACE]:
             current_item = self.options[self.index]
-            if 'Play' in current_item:
+            if 'Resume' in current_item:
                 if not self.pressed_quit:
                     self.pressed_play = True
-            elif 'Quit' in current_item:
+                    self.index = 0
+            if 'Options' in current_item:
+                if not self.pressed_quit and not self.pressed_play:
+                    self.pressed_settings = True
+                    self.index = 0
+            elif 'Main Menu' in current_item:
                 if not self.pressed_play:
                     self.pressed_quit = True
+                    self.index = 0
 
     def show_entry(self, text_surf, top, index, text_index):
 
@@ -65,7 +70,7 @@ class main_menu:
             pygame.draw.rect(self.display_surface, 'black', bg_rect, 4, 4)
 
     def main_menu_title(self):
-        text_surf = self.font.render('Main Menu', False, 'Black')
+        text_surf = self.font.render('Pause Menu', False, 'Black')
         text_rect = text_surf.get_frect(midtop=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 20))
 
         pygame.draw.rect(self.display_surface, 'White', text_rect.inflate(10, 10), 0, 4)

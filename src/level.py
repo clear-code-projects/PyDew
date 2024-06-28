@@ -19,7 +19,7 @@ class Level:
         self.collision_sprites = pygame.sprite.Group()
         self.tree_sprites = pygame.sprite.Group()
         self.interaction_sprites = pygame.sprite.Group()
-
+        self.font = font
         # soil 
         self.soil_layer = SoilLayer(self.all_sprites, self.collision_sprites, tmx_maps['main'], level_frames)
         self.raining = False
@@ -85,7 +85,8 @@ class Level:
                                              collision_sprites=self.collision_sprites,
                                              apply_tool=self.apply_tool,
                                              interact=self.interact,
-                                             sounds=self.sounds)
+                                             sounds=self.sounds, 
+                                             font=self.font)
 
     def apply_tool(self, tool, pos, entity):
         if tool == 'axe':
