@@ -1,8 +1,8 @@
 from .settings import *
 from .timer import Timer
 from random import randint, choice
-
-
+from .pause_menu import pause_menu
+from .settings_menu import settings_menu
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups, z=LAYERS['main'], name=None):
         super().__init__(groups)
@@ -133,7 +133,7 @@ class Entity(Sprite):
 
 
 class Player(CollideableSprite):
-    def __init__(self, pos, frames, groups, collision_sprites, apply_tool, interact, sounds):
+    def __init__(self, pos, frames, groups, collision_sprites, apply_tool, interact, sounds, font):
         self.frames, self.frame_index, self.state, self.facing_direction = frames, 0, 'idle', 'down'
         super().__init__(pos, self.frames[self.state][self.facing_direction][self.frame_index], groups,
                          (44 * SCALE_FACTOR, 40 * SCALE_FACTOR))
@@ -141,9 +141,12 @@ class Player(CollideableSprite):
         # movement
         self.direction = pygame.Vector2()
         self.speed = 250
+        self.font = font
         self.collision_sprites = collision_sprites
         self.blocked = False
+        self.paused = False
         self.interact = interact
+        self.sounds = sounds
         self.plant_collide_rect = self.hitbox_rect.inflate(10, 10)
 
         # tools
@@ -153,7 +156,8 @@ class Player(CollideableSprite):
         self.tool_active = False
         self.just_used_tool = False
         self.apply_tool = apply_tool
-
+        self.pause_menu = pause_menu(self.font)
+        self.settings_menu = settings_menu(self.font, self.sounds)
         # seeds 
         self.available_seeds = ['corn', 'tomato']
         self.seed_index = 0
@@ -177,6 +181,13 @@ class Player(CollideableSprite):
         keys = pygame.key.get_pressed()
         # movement
         if not self.tool_active and not self.blocked:
+            recent_keys = pygame.key.get_just_pressed()
+            if recent_keys[pygame.K_ESCAPE]:
+                self.paused = not self.paused
+                self.direction.y = 0
+                self.direction.x = 0
+
+        if not self.tool_active and not self.blocked and not self.paused:
             self.direction.x = int(keys[pygame.K_RIGHT]) - int(keys[pygame.K_LEFT])
             self.direction.y = int(keys[pygame.K_DOWN]) - int(keys[pygame.K_UP])
             self.direction = self.direction.normalize() if self.direction else self.direction
