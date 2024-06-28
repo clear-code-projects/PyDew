@@ -19,7 +19,7 @@ class Level:
         self.collision_sprites = pygame.sprite.Group()
         self.tree_sprites = pygame.sprite.Group()
         self.interaction_sprites = pygame.sprite.Group()
-
+        self.font = font
         # soil 
         self.soil_layer = SoilLayer(self.all_sprites, self.collision_sprites, tmx_maps['main'], level_frames)
         self.raining = False
@@ -44,6 +44,8 @@ class Level:
         self.shop_active = False
 
     def setup(self, tmx_maps: MapDict, character_frames, level_frames):
+        self.sounds["music"].set_volume(0.1)
+        self.sounds["music"].play(-1)
         # environment
         for layer in ['Lower ground', 'Upper ground']:
             for x, y, surf in tmx_maps['main'].get_layer_by_name(layer).tiles():
@@ -85,7 +87,8 @@ class Level:
                                              collision_sprites=self.collision_sprites,
                                              apply_tool=self.apply_tool,
                                              interact=self.interact,
-                                             sounds=self.sounds)
+                                             sounds=self.sounds, 
+                                             font=self.font)
 
     def apply_tool(self, tool, pos, entity):
         if tool == 'axe':
