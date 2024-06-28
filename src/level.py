@@ -168,7 +168,7 @@ class Level:
             self.all_sprites.update(dt)
         self.all_sprites.draw(self.entities['Player'].rect.center)
         self.plant_collision()
-        self.overlay.display()
+        self.overlay.display(self.sky.get_time())
         self.sky.display(dt)
 
         if self.shop_active:
@@ -179,3 +179,4 @@ class Level:
 
         if self.day_transition:
             self.transition.play()
+            self.sky.set_time(6,00)     # set to 0600 hours upon sleeping
