@@ -1,7 +1,7 @@
 from src.settings import *
 from src.support import *
 from src.level import Level
-
+from src.main_menu import main_menu
 
 class Game:
     def __init__(self):
@@ -52,7 +52,35 @@ class Game:
 
             pygame.display.update()
 
-
+class MainMenu:
+    def __init__(self):
+        self.menu = True
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        pygame.init()
+        self.font = import_font(30, 'font/LycheeSoda.ttf')
+        pygame.display.set_caption('PyDew')
+        self.clock = pygame.time.Clock()
+        self.main_menu = main_menu(self.font)
+        self.background = pygame.image.load("images/menu_background/bg.png")
+        self.background = pygame.transform.scale(self.background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    def run(self):
+        while self.menu:
+            dt = self.clock.tick() / 1000
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+            if self.main_menu.pressed_play:
+                self.menu = False
+                game = Game()
+                game.run()
+            elif self.main_menu.pressed_quit:
+                self.menu = False
+                pygame.quit()
+                sys.exit()
+            pygame.display.update()
+            self.screen.blit(self.background, (0, 0))
+            self.main_menu.update()
 if __name__ == '__main__':
-    game = Game()
+    game = MainMenu()
     game.run()
