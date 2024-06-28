@@ -40,7 +40,6 @@ class Plant(CollideableSprite):
         self.hitbox = None
 
         self.seed_type = seed_type
-        print(self.seed_type)
         self.age = 0
         self.max_age = len(self.frames) - 1
         self.grow_speed = GROW_SPEED[seed_type]

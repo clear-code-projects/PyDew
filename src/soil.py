@@ -14,7 +14,7 @@ class SoilLayer:
         self.level_frames = level_frames
         self.create_soil_grid(tmx_map)
     
-    def create_soil_grid(self, tmx_map):		
+    def create_soil_grid(self, tmx_map):
         self.grid = [[[] for col in range(tmx_map.width)] for row in range(tmx_map.height)]
         for x, y, _ in tmx_map.get_layer_by_name('Farmable').tiles():
             self.grid[y][x].append('F')
@@ -66,17 +66,22 @@ class SoilLayer:
                 if 'W' in cell:
                     cell.remove('W')
 
-    def plant_seed(self, pos, seed, plant_sound):
+    def plant_seed(self, pos, seed, inventory, plant_sounds):
         for soil_sprite in self.soil_sprites.sprites():
             if soil_sprite.rect.collidepoint(pos):
 
                 x = int(soil_sprite.rect.x / (TILE_SIZE * SCALE_FACTOR))
                 y = int(soil_sprite.rect.y / (TILE_SIZE * SCALE_FACTOR))
 
-                if 'P' not in self.grid[y][x]:
+                if 'P' not in self.grid[y][x] and inventory[seed+" seed"] > 0:
                     self.grid[y][x].append('P')
                     Plant(seed, [self.all_sprites, self.plant_sprites, self.collision_sprites], soil_sprite, self.level_frames[seed], self.check_watered)
-                    plant_sound.play()
+                    inventory[seed+" seed"] -= 1
+                    plant_sounds[0].play()
+                else:
+                    # play a sound that indecates u cant plant a seed
+                    plant_sounds[1].play()
+
     def update_plants(self):
         for plant in self.plant_sprites.sprites():
             plant.grow()
