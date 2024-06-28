@@ -179,4 +179,4 @@ class Level:
 
         if self.day_transition:
             self.transition.play()
-            self.sky.set_time(6,00)     # set to 0600 hours upon sleeping
+            self.sky.set_time(6,0)     # set to 0600 hours upon sleeping
