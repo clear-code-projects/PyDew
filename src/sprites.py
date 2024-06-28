@@ -5,7 +5,7 @@ from random import randint, choice
 
 
 class Sprite(pygame.sprite.Sprite):
-    def __init__(self, pos, surf, groups, z=LAYERS['main'], name=None):
+    def __init__(self, pos: tuple[int | float, int | float], surf: pygame.Surface, groups: tuple[pygame.sprite.Group], z: int = LAYERS['main'], name: str | None = None):
         super().__init__(groups)
         self.surf = surf
         self.image = surf
