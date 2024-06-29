@@ -95,7 +95,6 @@ class MainMenu:
         self.background = pygame.transform.scale(self.background, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.game = Game(self)
     def run(self):
-        print(self.menu)
         while self.menu:
             dt = self.clock.tick() / 1000
             for event in pygame.event.get():
@@ -103,14 +102,12 @@ class MainMenu:
                     pygame.quit()
                     sys.exit()
             if self.main_menu.pressed_play:
-                print("pressed play :D")
                 self.sounds["music"].stop()
                 self.main_menu.pressed_play = False
                 self.game.running = True
                 self.game.run()
                 self.menu = False
             elif self.main_menu.pressed_quit:
-                print("pressed quit :D")
                 self.main_menu.pressed_quit = False
                 self.menu = False
                 pygame.quit()
