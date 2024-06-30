@@ -25,6 +25,8 @@ python3 main.py
 
 ## Team
 
+This section is continuously updated.
+
 - [Sophie Kittelberger](https://github.com/sloukit), Project Director
 - [Lars Butler](https://github.com/larsbutler), Project Director
 - [novial](https://github.com/novialriptide), Game Developer & Quality Analyst
