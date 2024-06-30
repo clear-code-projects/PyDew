@@ -3,7 +3,6 @@ from src.support import *
 from src.level import Level
 from src.main_menu import main_menu
 
-
 class Game:
     def __init__(self):
         self.character_frames: dict[str, AniFrames] | None = None
@@ -60,8 +59,9 @@ class Game:
                 elif pause_menu.pressed_quit:
                     pause_menu.pressed_quit = False
                     self.running = False
-                    game = MainMenu()
-                    game.run()
+                    self.main_menu.menu = True
+                    self.level.entities["Player"].paused = False
+                    self.main_menu.run()
                 elif pause_menu.pressed_settings:
                     self.settings_menu = self.level.entities["Player"].settings_menu
                 if self.settings_menu and self.settings_menu.go_back:
@@ -91,6 +91,7 @@ class MainMenu:
         self.main_menu = main_menu(self.font, self.sounds["music"])
         self.background = pygame.image.load("images/menu_background/bg.png")
         self.background = pygame.transform.scale(self.background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.game = Game(self)
     def run(self):
         while self.menu:
             dt = self.clock.tick() / 1000
@@ -100,10 +101,12 @@ class MainMenu:
                     sys.exit()
             if self.main_menu.pressed_play:
                 self.sounds["music"].stop()
+                self.main_menu.pressed_play = False
+                self.game.running = True
+                self.game.run()
                 self.menu = False
-                game = Game()
-                game.run()
             elif self.main_menu.pressed_quit:
+                self.main_menu.pressed_quit = False
                 self.menu = False
                 pygame.quit()
                 sys.exit()
